@@ -1,0 +1,973 @@
+--Creación de la Tabla Personal “PAD01”
+
+CREATE TABLE PAD01 (
+    ID_PAD     numeric (10) NOT NULL,
+    NSA        varchar NOT NULL,
+    GRALFA     varchar NOT NULL,
+    APEPAT     varchar NOT NULL,
+    APEMAT     varchar NOT NULL,
+    NOMBRE1    varchar NOT NULL,
+    NOMBRE2    varchar NOT NULL,
+    UNIORIG    numeric (3) NOT NULL,
+    PRIMARY KEY  (NSA)
+);
+
+select * from pad01
+--drop table pad01
+
+--INSERTANDO DATOS AL PAD01
+insert into PAD01 values (1,'602507','TSP','URBINA','INFANTE','MARIO','ALBERTO',256);
+insert into PAD01 values (2,'97140','TEN','GARCIA','MIDEIROS','KARLA','VANESSA',257);
+insert into PAD01 values (3,'95532','TEN','LOPEZ','CALDERON','JOSE','ANTONIO',257);
+insert into PAD01 values (4,'94558','TEN','SHULER','MATOS','HECTOR','ALEJANDRO',257);
+insert into PAD01 values (5,'93255','CAP','TORRES','ALVA','JUAN','DIEGO',257);
+insert into PAD01 values (6,'99504','CAP','GARCIA','MENDEL','GASPAR','FABIAN',257);
+insert into PAD01 values (7,'90585','TEN','LORCA','FRAULE','VICTOR','ALFONSO',257);
+insert into PAD01 values (8,'90589','TEN','VIVIAN','DENSEL','CARLOS','ENRIQUE',257);
+insert into PAD01 values (9,'99585','TEN','SASHA','KEIV','MILENKO','MIKE',257);
+insert into PAD01 values (10,'98558','CAP','MIULER','MAYER','ADOLFO','ARTURO',257);
+insert into PAD01 values (11,'92445','ALF','RAMOS','FEDERER','NICOLAS','RODRIGO',257);
+insert into PAD01 values (12,'95665','ALF','PEREZ','RAFAEL','JESUS','JERONIMO',257);
+
+--------
+
+CREATE TABLE HRS_ENTRENAMIENTO (
+    ID_PILOTO    numeric (10) NOT NULL,
+    NSA        varchar NOT NULL references pad01(nsa),
+    HRS_PROGRAM   numeric (10) NOT NULL,
+    HRS_EJEC numeric (10) NOT NULL,       
+    PRIMARY KEY  (ID_PILOTO)
+);
+
+select * from hrs_entrenamiento
+--drop table hrs_entrenamiento
+
+insert into hrs_entrenamiento values (1,'602507',5000,1320);
+insert into hrs_entrenamiento values (2,'97140',5000,720);
+insert into hrs_entrenamiento values (3,'95532',5000,553);
+insert into hrs_entrenamiento values (4,'94558',5000,650);
+insert into hrs_entrenamiento values (5,'93255',5000,1405);
+insert into hrs_entrenamiento values (6,'99504',5000,1320);
+insert into hrs_entrenamiento values (7,'90585',5000,2600);
+insert into hrs_entrenamiento values (8,'90589',5000,3200);
+insert into hrs_entrenamiento values (9,'99585',5000,4152);
+insert into hrs_entrenamiento values (10,'98558',5000,3620);
+insert into hrs_entrenamiento values (11,'92445',5000,4405);
+insert into hrs_entrenamiento values (12,'95665',5000,3910);
+
+--------
+
+CREATE TABLE EXAMEN_CONOCIMIENTO (
+    ID_PILOTO    numeric (10) NOT NULL,
+    NSA        varchar NOT NULL references pad01(nsa),
+    NOTA_EXAMEN   numeric (10) NOT NULL,         
+    PRIMARY KEY  (ID_PILOTO)
+);
+
+select * from examen_conocimiento
+--drop table examen_conocimiento
+--delete from examen_conocimiento
+
+insert into examen_conocimiento values (1,'602507',99);
+insert into examen_conocimiento values (2,'97140',100);
+insert into examen_conocimiento values (3,'95532',97);
+insert into examen_conocimiento values (4,'94558',95);
+insert into examen_conocimiento values (5,'93255',95);
+insert into examen_conocimiento values (6,'99504',97);
+insert into examen_conocimiento values (7,'90585',98);
+insert into examen_conocimiento values (8,'90589',92);
+insert into examen_conocimiento values (9,'99585',88);
+insert into examen_conocimiento values (10,'98558',91);
+insert into examen_conocimiento values (11,'92445',90);
+insert into examen_conocimiento values (12,'95665',98);
+
+---------
+
+----------CREACION DEL FMB 001------------
+--PRINCIPALES--
+select * from fuzzy_col_list;
+select * from fuzzy_object_list;
+select * from fuzzy_label_def;
+select * from fuzzy_approx_much;
+select * from fuzzy_nearness_def;
+select * from fuzzy_compatible_col;
+select * from fuzzy_qualifiers_def;
+----------------------------------------------------------------------------------------
+
+--FUZZY_COL_LIST--
+------------------
+
+--Atributos con tratamiento difuso: tipos 1,2 o 3:
+insert into fuzzy_col_list values (23,1,2,1,null,null,'variable.hrs_ejecutadas')
+insert into fuzzy_col_list values (23,2,2,1,null,null,'variable.examen_conocimiento')
+
+--FUZZY_OBJECT_LIST--
+---------------------
+
+--Objetos para la tabla HRS_EJECUTADAS:
+insert into fuzzy_object_list values (23,1,0,'minimo',0);
+insert into fuzzy_object_list values (23,1,1,'poco',0);
+insert into fuzzy_object_list values (23,1,2,'regular',0);
+insert into fuzzy_object_list values (23,1,3,'mucho',0);
+insert into fuzzy_object_list values (23,1,4,'bastante',0);
+insert into fuzzy_object_list values (23,1,5,'maxima',0);
+
+DELETE FROM fuzzy_col_list 
+  WHERE obj = '23';
+  
+/*
+insert into fuzzy_object_list values (23,1,0,'inexperto',0);
+insert into fuzzy_object_list values (23,1,1,'endesarrollo',0);
+insert into fuzzy_object_list values (23,1,2,'capacitado',0);
+insert into fuzzy_object_list values (23,1,3,'cuasiexperto',0);
+insert into fuzzy_object_list values (23,1,4,'experto',0);
+insert into fuzzy_object_list values (23,1,5,'experimentado',0);
+*/
+
+insert into fuzzy_object_list values (23,2,0,'',1);
+insert into fuzzy_object_list values (23,2,1,'',1);
+insert into fuzzy_object_list values (23,2,2,'',1);
+
+
+--Objetos para la tabla EXAMEN_CONOCIMIENTO:
+insert into fuzzy_object_list values (23,2,0,'muybajo',0);
+insert into fuzzy_object_list values (23,2,1,'bajo',0);
+insert into fuzzy_object_list values (23,2,2,'regular',0);
+insert into fuzzy_object_list values (23,2,3,'alto',0);
+
+--FUZZY_LABEL_DEF--
+-------------------
+
+--Definicion de las etiquetas linguisticas: (Atributo Horas Ejecutadas (hrs_ejec)
+insert into fuzzy_label_def values (23,1,0,0,0,850,965);
+insert into fuzzy_label_def values (23,1,1,850,965,1250,1500);
+insert into fuzzy_label_def values (23,1,2,1250,1500,2200,2500);
+insert into fuzzy_label_def values (23,1,3,2200,2500,3500,3750);
+insert into fuzzy_label_def values (23,1,4,3500,3750,4375,4500);
+insert into fuzzy_label_def values (23,1,5,4375,4500,5000,6000);
+
+--Definicion de las etiquetas linguisticas: (Atributo Examen Conocimiento (exam_con)
+insert into fuzzy_label_def values (23,2,0,0,0,70,79);
+insert into fuzzy_label_def values (23,2,1,75,79,82,85);
+insert into fuzzy_label_def values (23,2,2,81,85,90,95);
+insert into fuzzy_label_def values (23,2,3,94,97,100,100);
+
+--FUZZY_NEARNESS_DEF
+--Definicion de las relaciones de semejanza:
+insert into fuzzy_nearness_def values (22,2,0,1,.1);
+insert into fuzzy_nearness_def values (22,2,0,2,.5);
+insert into fuzzy_nearness_def values (22,2,1,2,.7);
+
+-----------------------------------------------------------------
+
+-----------------------------------------------------------------
+
+--CREACION DE TABLA DIFUSA:
+CREATE TABLE FUZZY_PROCESO_SELECCION (
+id_fuzzy_exp_vuelo numeric (10) NOT NULL,
+nsa varchar references pad01(nsa),
+hrsvuelot numeric (1) NOT NULL,
+hrsvuelo1 numeric (10),
+hrsvuelo2 numeric (10),
+hrsvuelo3 numeric (10),
+hrsvuelo4 numeric (10),
+examcont numeric (1) NOT NULL,
+examcon1 numeric (10),
+examcon2 numeric (10),
+examcon3 numeric (10),
+examcon4 numeric (10),
+PRIMARY KEY (nsa));
+
+--INSERTANDO DATOS:
+insert into FUZZY_PROCESO_SELECCION  values (1,'602507',3,1320,NULL,NULL,NULL,3,99,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (2,'97140',3,720,NULL,NULL,NULL,3,100,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (3,'95532',3,553,NULL,NULL,NULL,3,97,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (4,'94558',3,650,NULL,NULL,NULL,3,95,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (5,'93255',3,1405,NULL,NULL,NULL,3,95,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (6,'99504',3,1320,NULL,NULL,NULL,3,97,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (7,'90585',3,2600,NULL,NULL,NULL,3,98,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (8,'90589',3,3200,NULL,NULL,NULL,3,92,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION values (9,'99585',3,4152,NULL,NULL,NULL,3,88,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (10,'98558',3,3620,NULL,NULL,NULL,3,91,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (11,'92445',3,4405,NULL,NULL,NULL,3,90,NULL,NULL,NULL);
+insert into FUZZY_PROCESO_SELECCION  values (12,'95665',3,3910,NULL,NULL,NULL,3,98,NULL,NULL,NULL);
+
+
+
+select * from FUZZY_PROCESO_SELECCION;
+--drop table FUZZY_PROCESO_SELECCION;
+
+
+-----------------------CONSULTAS DIFUSAS PARA HRS_EJECUTADAS----------------------------
+
+--Dame los pilotos que posiblemente hayan volado $muypoco (FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 0, 0, -115, 965,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Minimo"
+from FUZZY_PROCESO_SELECCION
+-- 100% $minimo
+where fsql_functions_feq(null, null, null, 0, 0, -115, 965,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 0, 0, -115, 965,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Minimo",
+fsql_functions_fshow2(23, 1, hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "hrs_ejectuadas"
+from FUZZY_PROCESO_SELECCION
+------------------
+
+--Dame los pilotos que posiblemente hayan volado $poco (FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 850, 115, -250, 1500,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuel
+o3, hrsvuelo4) as "Grado-de-Precision-Poco"
+from FUZZY_PROCESO_SELECCION
+-- 100% $poco
+where fsql_functions_feq(null, null, null, 850, 115, -250, 1500,23, 1,
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 850, 115, -250, 1500,23, 1,
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Poco",
+fsql_functions_fshow2(23, 1, hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "hrs_ejectuadas"
+from FUZZY_PROCESO_SELECCION 
+------------------
+
+--Dame los pilotos que posiblemente hayan volado $regular (FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 1250, 250, -300, 2500,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Regular"
+from FUZZY_PROCESO_SELECCION
+-- 100% $regular
+where fsql_functions_feq(null, null, null, 1250, 250, -300, 2500,23, 1,
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 1250, 250, -300, 2500,23, 1,
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Regular",
+fsql_functions_fshow2(23, 1, hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "hrs_ejectuadas"
+from FUZZY_PROCESO_SELECCION 
+------------------
+
+--Dame los pilotos que posiblemente hayan volado $mucho (FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 2200, 300, -250, 3750,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Mucho"
+from FUZZY_PROCESO_SELECCION
+-- 100% $mucho
+where fsql_functions_feq(null, null, null, 2200, 300, -250, 3750,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 2200, 300, -250, 3750,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Mucho",
+fsql_functions_fshow2(23, 1, hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "hrs_ejectuadas"
+from FUZZY_PROCESO_SELECCION 
+------------------
+
+--Dame los pilotos que posiblemente hayan volado $bastante (FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 3500, 250, -125, 4500,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Bastante"
+from FUZZY_PROCESO_SELECCION
+-- 100% $bastante
+where fsql_functions_feq(null, null, null, 3500, 250, -125, 4500,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 3500, 250, -125, 4500,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Bastante",
+fsql_functions_fshow2(23, 1, hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "hrs_ejectuadas"
+from FUZZY_PROCESO_SELECCION
+------------------
+
+--Dame los pilotos que posiblemente tengan $maximas horas de vuelo (FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 4375, 125, -1000, 6000,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Maxima"
+from FUZZY_PROCESO_SELECCION
+-- 100% $maxima
+where fsql_functions_feq(null, null, null, 4375, 125, -1000, 6000,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 4375, 125, -1000, 6000,23, 1,  
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Maxima",
+fsql_functions_fshow2(23, 1, hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "hrs_ejectuadas"
+from FUZZY_PROCESO_SELECCION 
+------------------
+
+----------------------------------------------------------------------------------------------------------
+
+-----------------------CONSULTAS DIFUSAS PARA EXAMEN_CONOCIMIENTO----------------------------
+
+
+--Dame los pilotos que posiblemente tengan calificacion $muybajo en el examen de conocimiento(FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 0, 0, -9, 79,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Muy-Bajo"
+from FUZZY_PROCESO_SELECCION
+-- 100% $MuyBajo
+where fsql_functions_feq(null, null, null, 0, 0, -9, 79,23, 2,  
+examcont, examcon1, examcon2, examcon3, examcon4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 0, 0, -9, 79,23, 2,  
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Muy-Bajo",
+fsql_functions_fshow2(23, 2, examcont, examcon1, examcon2, examcon3, examcon4) as "examen_conocimiento"
+from FUZZY_PROCESO_SELECCION 
+------------------
+
+--Dame los pilotos que posiblemente tengan calificacion $bajo en el examen de conocimiento(FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 75, 4, -3, 85,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Bajo"
+from FUZZY_PROCESO_SELECCION
+-- 100% $bajo
+where fsql_functions_feq(null, null, null, 75, 4, -3, 85,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 75, 4, -3, 85,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Bajo",
+fsql_functions_fshow2(23, 2, examcont, examcon1, examcon2, examcon3, examcon4) as "examen_conocimiento"
+from FUZZY_PROCESO_SELECCION 
+------------------
+
+--Dame los pilotos que posiblemente tengan calificacion $regular en el examen de conocimiento(FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 81, 4, -5, 95,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Regular"
+from FUZZY_PROCESO_SELECCION
+-- 100% $regular
+where fsql_functions_feq(null, null, null, 81, 4, -5, 95,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 81, 4, -5, 95,23, 2,
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Regular",
+fsql_functions_fshow2(23, 2, examcont, examcon1, examcon2, examcon3, examcon4) as "examen_conocimiento"
+from FUZZY_PROCESO_SELECCION 
+------------------
+
+--Dame los pilotos que posiblemente tengan calificacion $alta en el examen de conocimiento(FEQ)
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 94, 3, -100, 200,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Alto"
+from FUZZY_PROCESO_SELECCION
+-- 100% $Alto
+where fsql_functions_feq(null, null, null, 94, 3, -100, 200,23, 2,  
+examcont, examcon1, examcon2, examcon3, examcon4) = 1;
+
+--T.FUZZY 2--
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 94, 3, -100, 200,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Alto",
+fsql_functions_fshow2(23, 2, examcont, examcon1, examcon2, examcon3, examcon4) as "examen_conocimiento"
+from FUZZY_PROCESO_SELECCION 
+------------------
+
+
+--///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+--Pilotos Con $bastante horas de vuelo y con calificacion posiblemente $alta
+
+--Dame los pilotos que posiblemente hayan volado $bastante (FEQ)
+--Dame los pilotos que posiblemente tengan calificacion $alta en el examen de conocimiento(FEQ)
+
+
+select id_fuzzy_exp_vuelo,nsa,
+fsql_functions_feq(null, null, null, 3500, 250, -125, 4500,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) as "Grado-de-Precision-Bastante",
+fsql_functions_feq(null, null, null, 94, 3, -100, 200,23, 2, 
+examcont, examcon1, examcon2, examcon3, examcon4) as "Grado-de-Precision-Alto"
+from FUZZY_PROCESO_SELECCION
+
+-- 100% $bastante
+-- 100% $Alto
+
+where 
+fsql_functions_feq(null, null, null, 3500, 250, -125, 4500,23, 1, 
+hrsvuelot, hrsvuelo1, hrsvuelo2, hrsvuelo3, hrsvuelo4) = 1
+and 
+fsql_functions_feq(null, null, null, 94, 3, -100, 200,23, 2,  
+examcont, examcon1, examcon2, examcon3, examcon4) = 1
+
+--////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+SELECT * FROM PAD01 
+select * from hrs_entrenamiento WHERE hrs_ejec < 1500
+
+-- SELECCION DE PERSONAL --------------------------------------------------------
+
+--CREACION DE TABLA DIFUSA:
+CREATE TABLE persona (
+persona varchar,
+edadt numeric (1) NOT NULL,
+edad1 numeric (3),
+edad2 numeric (3),
+edad3 numeric (3),
+edad4 numeric (3),
+colorpelot numeric (1) NOT NULL,
+colorpeloP1 numeric (3,2),
+colorpelo1 numeric (3),
+PRIMARY KEY (persona));
+
+--INSERTANDO DATOS:
+insert into persona values ('P1',3,14,NULL,NULL,NULL,3,1,2);
+insert into persona values ('P2',3,19,NULL,NULL,NULL,3,1,1);
+insert into persona values ('P3',3,28,NULL,NULL,NULL,3,1,1);
+insert into persona values ('P4',3,35,NULL,NULL,NULL,3,1,0);
+--**agregando nueba tupla para probar calculo de Fuzzy Type 2 con "label" (T4)
+insert into persona values ('P5',4,1,NULL,NULL,NULL,3,1,1);
+insert into persona values ('P6',5,10,NULL,NULL,15,3,1,1);
+insert into persona values ('P7',5,7,NULL,NULL,15,3,1,1);
+insert into persona values ('P8',5,35,NULL,NULL,45,3,1,1);
+insert into persona values ('P9',5,7,NULL,NULL,10,3,1,1);
+insert into persona values ('P10',4,2,NULL,NULL,NULL,3,1,1);
+
+delete from persona where persona = 'P10';
+select * from persona;
+--drop table persona;
+
+--------------------------------------------------------------------
+
+--Dame los empleados posiblemente $jovenes 
+select persona,
+fsql_functions_feq_trape(10,5,-5,30,22,1,edadt,edad1,edad2,edad3,edad4) as "cdeg(edad)"
+from persona
+where fsql_functions_feq_trape(10,5,-5,30,22,1,edadt,edad1,edad2,edad3,edad4) > 0.2;
+
+--Dame las personas posiblemente $jovenes "FULL" FEQ
+select persona,
+fsql_functions_feq(null, null, null, 10, 5, -5, 30,22, 1, 
+edadt, edad1, edad2, edad3, edad4) as "cdeg(edad)"
+from persona
+where fsql_functions_feq(null, null, null, 10, 5, -5, 30,22, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1;
+
+--T.FUZZY 2
+select persona,
+fsql_functions_feq(null, null, null, 10, 5, -5, 30,22, 1, 
+edadt, edad1, edad2, edad3, edad4) as "cdeg(edad)",
+fsql_functions_fshow2(22, 1, edadt, edad1, edad2, edad3, edad4) as "edad"
+from persona
+
+--T.FUZZT 3
+select persona,
+fsql_functions_fshow3(22, 2, 1, colorpelot, colorpelop1, colorpelo1, null,
+null, null, null, null, null, null, null, null, null, 
+null, null, null, null, null, null, null, null) as "colorpelo"
+from persona
+
+--/////////////////////////////////////////////////////////////////////////////////////
+--/////////////////////////////////////////////////////////////////////////////////////
+--/////////////////////////////////////////////////////////////////////////////////////
+--/////////////////////////////////////////////////////////////////////////////////////
+--/////////////////////////////////////////////////////////////////////////////////////
+--/////////////////////////////////////////////////////////////////////////////////////
+
+
+-- SELECCION DE PERSONAL --------------------------------------------------------
+-- COMPLETO ---------------------------------------------------------------------
+
+----------CREACION DEL FMB 001------------
+--PRINCIPALES--
+select * from fuzzy_col_list;
+select * from fuzzy_object_list;
+select * from fuzzy_label_def;
+select * from fuzzy_approx_much;
+select * from fuzzy_nearness_def;
+select * from fuzzy_compatible_col;
+select * from fuzzy_qualifiers_def;
+------------------------------------
+
+
+--FUZZY_COL_LIST--
+------------------
+
+--Atributos con tratamiento difuso: tipos 1,2 o 3:
+insert into fuzzy_col_list values (24,1,2,1,null,null,'seleccion_personal_edad');
+insert into fuzzy_col_list values (24,2,2,1,null,null,'seleccion_personal_experiencia');
+
+--FUZZY_OBJECT_LIST--
+---------------------
+
+--Objetos Difusos.
+--Terminos linguisticos para la variable linguistica EDAD
+insert into fuzzy_object_list values (24,1,0,'joven',0);
+insert into fuzzy_object_list values (24,1,1,'adulto',0);
+insert into fuzzy_object_list values (24,1,2,'muyadulto',0);
+--Terminos linguisticos para la variable linguistica EXPERIENCIA
+insert into fuzzy_object_list values (24,2,0,'poca',0);
+insert into fuzzy_object_list values (24,2,1,'regular',0);
+insert into fuzzy_object_list values (24,2,2,'mucha',0);
+
+--eliminar caso 24.
+DELETE FROM fuzzy_col_list 
+  WHERE obj = '24';
+
+--FUZZY_LABEL_DEF--
+-------------------
+
+--Definicion de los terminos linguisticos (etiquetas linguisticas): (Atributos para EDAD)
+insert into fuzzy_label_def values (24,1,0,18,21,23,26);
+insert into fuzzy_label_def values (24,1,1,23,26,35,45);
+insert into fuzzy_label_def values (24,1,2,35,45,55,60);
+--Definicion de los terminos linguisticos (etiquetas linguisticas): (Atributos para EXPERIENCIA)
+insert into fuzzy_label_def values (24,2,0,6,12,15,18);
+insert into fuzzy_label_def values (24,2,1,15,18,24,36);
+insert into fuzzy_label_def values (24,2,2,24,36,60,61);
+
+-----------------------------------------------------------------
+
+--CREACION DE TABLA DIFUSA:
+CREATE TABLE seleccion_personal (
+id varchar,
+nombre varchar,
+edadt numeric (1) NOT NULL,
+edad1 numeric (3),
+edad2 numeric (3),
+edad3 numeric (3),
+edad4 numeric (3),
+experienciat numeric (1) NOT NULL,
+experiencia1 numeric (3),
+experiencia2 numeric (3),
+experiencia3 numeric (3),
+experiencia4 numeric (3),
+PRIMARY KEY (id));
+
+--drop table seleccion_personal
+
+--INSERTANDO DATOS:
+insert into seleccion_personal values ('P1','Urbina',3,19,NULL,NULL,NULL,4,0,NULL,NULL,NULL);
+insert into seleccion_personal values ('P2','Palacios',3,21,NULL,NULL,NULL,3,12,NULL,NULL,NULL);
+insert into seleccion_personal values ('P3','Suarez',3,25,NULL,NULL,NULL,5,15,NULL,NULL,18);
+insert into seleccion_personal values ('P4','Agurto',3,24,NULL,NULL,NULL,4,1,NULL,NULL,NULL);
+insert into seleccion_personal values ('P5','Torres',3,33,NULL,NULL,NULL,4,1,NULL,NULL,NULL);
+insert into seleccion_personal values ('P6','Lopez',3,37,NULL,NULL,NULL,3,17,NULL,NULL,NULL);
+insert into seleccion_personal values ('P7','Guevara',4,1,NULL,NULL,NULL,3,30,NULL,NULL,NULL);
+insert into seleccion_personal values ('P8','Valdivia',3,23,NULL,NULL,NULL,3,36,NULL,NULL,NULL);
+insert into seleccion_personal values ('P9','Valverde',4,0,NULL,NULL,NULL,4,2,NULL,NULL,NULL);
+insert into seleccion_personal  values ('P10','Rojas',5,45,NULL,NULL,55,3,34,NULL,NULL,NULL);
+insert into seleccion_personal  values ('P11','Mendoza',3,21,NULL,NULL,NULL,3,24,NULL,NULL,NULL);
+insert into seleccion_personal  values ('P12','Quijano',4,1,NULL,NULL,NULL,4,2,NULL,NULL,NULL);
+insert into seleccion_personal  values ('P13','Osorio',3,35,NULL,NULL,NULL,3,23,NULL,NULL,NULL);
+insert into seleccion_personal  values ('P14','Ruiz',3,28,NULL,NULL,NULL,3,37,NULL,NULL,NULL);
+insert into seleccion_personal  values ('P15','Diaz',4,1,NULL,NULL,NULL,3,38,NULL,NULL,NULL);
+
+
+delete from seleccion_personal where id = 'P10';
+select * from seleccion_personal;
+--drop table persona;
+
+
+--//////////////////////--
+--TABLA SELECCION DE PERSONAL-- (Datos difusos).
+--//////////////////////--
+
+select id,nombre,
+fsql_functions_fshow2(24, 1, edadt, edad1, edad2, edad3, edad4) as "Edad(años)",
+fsql_functions_fshow2(24, 2, experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Experiencia(meses)"
+from seleccion_personal;
+
+--//////////////////////--
+----CONSULTAS DIFUSAS-----
+--//////////////////////--
+
+----------- Termino Linguistico $Joven Variable Linguistica: Edad.
+--**************************************************************************
+
+--Dame TODO el personal posiblemente $Joven 
+select id,nombre,
+fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Joven"
+from seleccion_personal
+
+--Dame SOLO el personal posiblemente $Joven 
+-- 100% $Joven
+select id,nombre,
+fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Joven"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1;
+
+--------------
+
+--T.FUZZY 2
+--Dame TODO el personal posiblemente $Joven y sus datos difusos correspondientes.
+select id,nombre,
+fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Joven",
+fsql_functions_fshow2(24, 1, edadt, edad1, edad2, edad3, edad4) as "Edad(DatosImprecisos)"
+from seleccion_personal
+
+--Dame SOLO el personal posiblemente 100% $Joven y sus datos difusos correspondientes.
+-- 100% $Joven
+select id,nombre,
+fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Joven",
+fsql_functions_fshow2(24, 1, edadt, edad1, edad2, edad3, edad4) as "Edad(DatosImprecisos)"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1;
+-----------------------------------------------------------------------
+
+----------- Termino Linguistico $Adulto Variable Linguistica: Edad.
+--**************************************************************************
+
+--Dame TODO el personal posiblemente $Adulto
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto"
+from seleccion_personal
+
+--Dame SOLO el personal posiblemente $Adulto
+-- 100% $Adulto
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1;
+
+----------------
+
+--T.FUZZY 2
+--Dame TODO el personal posiblemente $Adulto y sus datos difusos correspondientes.
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto",
+fsql_functions_fshow2(24, 1, edadt, edad1, edad2, edad3, edad4) as "Edad(DatosImprecisos)"
+from seleccion_personal
+
+--Dame SOLO el personal posiblemente $Adulto y sus datos difusos correspondientes.
+-- 100% $Adulto
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto",
+fsql_functions_fshow2(24, 1, edadt, edad1, edad2, edad3, edad4) as "Edad(DatosImprecisos)"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1;
+
+-----------------------------------------------------------------------
+
+----------- Termino Linguistico $MuyAdulto Variable Linguistica: Edad.
+--**************************************************************************
+
+--Dame TODO el personal posiblemente $MuyAdulto
+select id,nombre,
+fsql_functions_feq(null, null, null, 35, 10, -5, 60,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-MuyAdulto"
+from seleccion_personal
+
+--Dame SOLO el personal posiblemente $MuyAdulto
+-- 100% $MuyAdulto
+select id,nombre,
+fsql_functions_feq(null, null, null, 35, 10, -5, 60,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-MuyAdulto"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 35, 10, -5, 60,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1;
+
+-------------
+
+--T.FUZZY 2
+--Dame TODO el personal posiblemente $MuyAdulto y sus datos difusos correspondientes.
+select id,nombre,
+fsql_functions_feq(null, null, null, 35, 10, -5, 60,24, 1,  
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-MuyAdulto",
+fsql_functions_fshow2(24, 1, edadt, edad1, edad2, edad3, edad4) as "Edad(DatosImprecisos)"
+from seleccion_personal
+
+--Dame SOLO el personal posiblemente $MuyAdulto y sus datos difusos correspondientes.
+-- 100% $MuyAdulto
+select id,nombre,
+fsql_functions_feq(null, null, null, 35, 10, -5, 60,24, 1,  
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-MuyAdulto",
+fsql_functions_fshow2(24, 1, edadt, edad1, edad2, edad3, edad4) as "Edad(DatosImprecisos)"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 35, 10, -5, 60,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1;
+
+-----------------------------------------------------------------------
+
+--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+----------- Termino Linguistico $Poca Variable Linguistica: Experiencia.
+--**************************************************************************
+
+--Dame TODO el personal que posiblemente tengan $Poca experiencia
+select id,nombre,
+fsql_functions_feq(null, null, null, 6, 6, -3, 18,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Poca"
+from seleccion_personal
+
+--Dame SOLO el personal que posiblemente tengan $Poca experiencia
+-- 100% $Poca 
+select id,nombre,
+fsql_functions_feq(null, null, null, 6, 6, -3, 18,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Poca"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 6, 6, -3, 18,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+
+--------------
+
+--T.FUZZY 2
+--Dame TODO el personal que posiblemente tengan $Poca experiencia y sus datos difusos correspondientes.
+select id,nombre,
+fsql_functions_feq(null, null, null, 6, 6, -3, 18,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Poca",
+fsql_functions_fshow2(24, 2, experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Experiencia"
+from seleccion_personal
+
+--Dame SOLO el personal que posiblemente tengan $Poca experiencia y sus datos difusos correspondientes.
+-- 100% $Poca 
+select id,nombre,
+fsql_functions_feq(null, null, null, 6, 6, -3, 18,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Poca",
+fsql_functions_fshow2(24, 2, experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Experiencia"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 6, 6, -3, 18,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+-----------------------------------------------------------------------
+
+----------- Termino Linguistico $Regular Variable Linguistica: Experiencia.
+--**************************************************************************
+
+--Dame TODO el personal que posiblemente tengan $Regular experiencia
+select id,nombre,
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular"
+from seleccion_personal
+
+--Dame SOLO el personal que posiblemente tengan $Regular experiencia
+-- 100% $Regular
+select id,nombre,
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+
+--------------
+
+--T.FUZZY 2
+--Dame TODO el personal que posiblemente tengan $Regular experiencia y sus datos difusos correspondientes.
+select id,nombre,
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular",
+fsql_functions_fshow2(24, 2, experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Experiencia"
+from seleccion_personal
+
+--Dame SOLO el personal que posiblemente tengan $Regular experiencia y sus datos difusos correspondientes.
+-- 100% $Regular
+select id,nombre,
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular",
+fsql_functions_fshow2(24, 2, experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Experiencia"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+
+-----------------------------------------------------------------------
+
+----------- Termino Linguistico $Mucha Variable Linguistica: Experiencia.
+--**************************************************************************
+
+--Dame TODO el personal que posiblemente tengan $Mucha experiencia
+select id,nombre,
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha"
+from seleccion_personal
+
+--Dame SOLO el personal que posiblemente tengan $Mucha experiencia
+-- 100% $Mucha
+select id,nombre,
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+
+------------
+
+--T.FUZZY 2
+--Dame TODO el personal que posiblemente tengan $Mucha experiencia y sus datos difusos correspondientes.
+select id,nombre,
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha",
+fsql_functions_fshow2(24, 2, experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Experiencia"
+from seleccion_personal
+
+--Dame SOLO el personal que posiblemente tengan $Mucha experiencia y sus datos difusos correspondientes.
+-- 100% $Mucha
+select id,nombre,
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha",
+fsql_functions_fshow2(24, 2, experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Experiencia"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+
+-----------------------------------------------------------------------
+
+--////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+-- CONSULTAS MIXTAS --
+--//////////////////--
+
+
+--Dame el personal posiblemente $Joven (100%) y que tengan $Regular (100%) experiencia
+
+select id,nombre,
+fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Joven",
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1
+and
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+
+
+--////////////////////////////////////////////////
+
+--Dame el personal posiblemente $Joven (100%) y que tengan $Mucha (100%) experiencia
+
+select id,nombre,
+fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Joven",
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 18, 3, -3, 26,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1
+and
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+
+--///////////////////////////////////////////////////////////////////////////////////
+
+
+--Dame el personal posiblemente $Adulto (100%) y que tengan $Mucha (100%) experiencia
+
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto",
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1
+and
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1;
+
+
+--///////////////////////////////////////////////////
+
+
+-- x and (y or z)
+--Dame el personal posiblemente $Adulto (100%) y que tengan $Regular (100%) o $Mucha (100%) experiencia
+
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto",
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular",
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1
+and
+(fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1
+or
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1);
+
+
+---cambio de conectivos logicos.
+-- x or (y and z)
+
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto",
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular",
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1
+or
+(fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1
+and
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1);
+
+--/////////////
+
+
+---cambio de conectivos logicos.
+-- x and (y and z)
+
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto",
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular",
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1
+and
+(fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1
+and
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1);
+
+--/////////////////////////////////////////////
+
+
+--Dame el personal posiblemente $Adulto (100%) y que tengan $Regular (50%) o $Mucha (100%) experiencia
+
+select id,nombre,
+fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) as "Grado-de-Precision-Adulto",
+fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Regular",
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) as "Grado-de-Precision-Mucha"
+from seleccion_personal
+where fsql_functions_feq(null, null, null, 23, 3, -10, 45,24, 1, 
+edadt, edad1, edad2, edad3, edad4) = 1
+and
+(fsql_functions_feq(null, null, null, 15, 3, -12, 36,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) > 0.4
+or
+fsql_functions_feq(null, null, null, 24, 12, -1, 61,24, 2, 
+experienciat, experiencia1, experiencia2, experiencia3, experiencia4) = 1);
+
+
+
+
